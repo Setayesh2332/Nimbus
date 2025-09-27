@@ -6,10 +6,12 @@ interface CurrentConditionsProps {
   location: string
   condition: Condition
   conditionLabel: string
-  temperature: number
+  temperature: number | null
 }
 
 export function CurrentConditions({ location, condition, conditionLabel, temperature }: CurrentConditionsProps) {
+  const formattedTemperature = typeof temperature === 'number' ? temperature : '--'
+
   return (
     <section className="current" aria-live="polite">
       <div className="current__heading">
@@ -18,7 +20,7 @@ export function CurrentConditions({ location, condition, conditionLabel, tempera
       </div>
       <div className="current__visual">
         <WeatherIcon condition={condition} />
-        <p className="current__temp">{temperature}°C</p>
+        <p className="current__temp">{formattedTemperature}°C</p>
       </div>
     </section>
   )
