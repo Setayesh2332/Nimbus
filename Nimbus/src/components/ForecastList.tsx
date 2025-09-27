@@ -1,5 +1,6 @@
 import type { ForecastEntry } from '../types/weather'
 import { WeatherIcon } from './WeatherIcon'
+import './ForecastList.css'
 
 interface ForecastListProps {
   entries: ForecastEntry[]

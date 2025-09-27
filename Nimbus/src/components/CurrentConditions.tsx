@@ -1,5 +1,6 @@
 import type { Condition } from '../types/weather'
 import { WeatherIcon } from './WeatherIcon'
+import './CurrentConditions.css'
 
 interface CurrentConditionsProps {
   location: string

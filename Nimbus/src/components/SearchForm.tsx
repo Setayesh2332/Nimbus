@@ -1,4 +1,5 @@
 import type { ChangeEventHandler, FormEventHandler } from 'react'
+import './SearchForm.css'
 
 interface SearchFormProps {
   value: string

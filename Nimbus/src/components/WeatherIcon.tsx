@@ -1,4 +1,5 @@
 import type { Condition } from '../types/weather'
+import './WeatherIcon.css'
 
 export type WeatherIconSize = 'large' | 'small'
 

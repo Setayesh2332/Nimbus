@@ -1,0 +1,18 @@
+.weather-icon {
+  width: 100%;
+  height: auto;
+}
+
+.weather-icon--large {
+  width: 180px;
+}
+
+.weather-icon--small {
+  width: 40px;
+}
+
+@media (max-width: 420px) {
+  .weather-icon--large {
+    width: 160px;
+  }
+}

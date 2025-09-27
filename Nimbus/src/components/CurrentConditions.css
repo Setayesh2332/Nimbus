@@ -1,0 +1,32 @@
+.current {
+  display: grid;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.current__heading h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  color: #1a3764;
+}
+
+.current__heading p {
+  margin: 0.25rem 0 0;
+  font-size: 1.05rem;
+  color: #6c7a99;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.current__visual {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.current__temp {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 600;
+  color: #1a3764;
+}
