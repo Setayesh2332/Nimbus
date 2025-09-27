@@ -3,6 +3,7 @@ export type Condition = 'sunny' | 'partly-cloudy' | 'rainy' | 'snowy' | 'windy'
 export interface ForecastEntry {
   id: string
   dayLabel: string
+  dateLabel: string
   condition: Condition
   temperature: number
 }

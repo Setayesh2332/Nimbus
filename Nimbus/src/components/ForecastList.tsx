@@ -24,6 +24,7 @@ function ForecastCard({ entry, isActive, onSelect }: ForecastCardProps) {
         aria-pressed={isActive}
       >
         <span className="forecast-card__day">{entry.dayLabel}</span>
+        <span className="forecast-card__date">{entry.dateLabel}</span>
         <WeatherIcon condition={entry.condition} size="small" />
         <span className="forecast-card__temp">{entry.temperature}°C</span>
       </button>
