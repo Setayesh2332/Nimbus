@@ -4,6 +4,7 @@ export interface ForecastEntry {
   id: string
   dayLabel: string
   dateLabel: string
+  fullDateLabel: string
   condition: Condition
   temperature: number
 }

@@ -44,7 +44,12 @@ const mapWeatherCodeToCondition = (code: number): Condition => {
 
 const roundTemperature = (value: number): number => Math.round(value * 10) / 10
 
-const formatDayLabel = (dateString: string, formatter: Intl.DateTimeFormat): string => {
+const parseISODate = (dateString: string): Date => {
+  const [year, month, day] = dateString.split('-').map(Number)
+  return new Date(Date.UTC(year, month - 1, day))
+}
+
+const formatDateLabel = (dateString: string, formatter: Intl.DateTimeFormat): string => {
   const [year, month, day] = dateString.split('-').map(Number)
   const utcDate = new Date(Date.UTC(year, month - 1, day))
   return formatter.format(utcDate)
@@ -54,16 +59,27 @@ const buildForecastEntries = (forecast: ForecastResponse, timezone: string): For
   const dailyLength = forecast.daily.time.length
   if (dailyLength === 0) return []
 
-  const formatter = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: timezone || 'UTC' })
+  const timezoneToUse = timezone || 'UTC'
+  const dayFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: timezoneToUse })
+  const cardDateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: timezoneToUse })
+  const fullDateFormatter = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    timeZone: timezoneToUse,
+  })
 
   return forecast.daily.time.slice(0, 5).map((date, index) => {
     const isFirstEntry = index === 0
     const temperatureSource = isFirstEntry && forecast.current_weather ? forecast.current_weather.temperature : forecast.daily.temperature_2m_max[index]
     const weatherCodeSource = isFirstEntry && forecast.current_weather ? forecast.current_weather.weathercode : forecast.daily.weathercode[index]
+    const utcDate = parseISODate(date)
 
     return {
       id: date,
-      dayLabel: formatDayLabel(date, formatter),
+      dayLabel: dayFormatter.format(utcDate),
+      dateLabel: cardDateFormatter.format(utcDate),
+      fullDateLabel: fullDateFormatter.format(utcDate),
       condition: mapWeatherCodeToCondition(weatherCodeSource),
       temperature: roundTemperature(temperatureSource),
     }
@@ -183,6 +199,8 @@ function App() {
           condition={activeCondition}
           conditionLabel={conditionLabels[activeCondition]}
           temperature={activeTemperature}
+          dateLabel={activeForecast?.fullDateLabel}
+          dateTime={activeForecast?.id}
         />
         <ForecastList entries={forecastEntries} activeIndex={selectedIndex} onSelect={setSelectedIndex} />
       </main>

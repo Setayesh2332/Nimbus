@@ -18,6 +18,14 @@
   text-transform: uppercase;
 }
 
+.current__date {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: rgba(26, 55, 100, 0.7);
+}
+
 .current__visual {
   display: grid;
   justify-items: center;

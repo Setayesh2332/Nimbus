@@ -1,8 +1,8 @@
 .forecast ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
   padding: 0;
   margin: 0;
 }
@@ -13,9 +13,9 @@
 
 .forecast-card {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.5rem;
   justify-items: center;
-  padding: 0.9rem 0.4rem;
+  padding: 1.1rem 0.6rem;
   border-radius: 18px;
   border: none;
   background: rgba(255, 255, 255, 0.8);
@@ -24,6 +24,10 @@
   font: inherit;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.forecast-card .weather-icon {
+  margin: 0.1rem 0 0.25rem;
 }
 
 .forecast-card:hover {
@@ -44,11 +48,22 @@
 }
 
 .forecast-card__date {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: rgba(26, 55, 100, 0.75);
 }
 
 .forecast-card__temp {
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .forecast ul {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .forecast-card {
+    padding: 1rem 0.5rem;
+  }
 }

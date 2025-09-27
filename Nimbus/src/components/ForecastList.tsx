@@ -22,6 +22,8 @@ function ForecastCard({ entry, isActive, onSelect }: ForecastCardProps) {
         className={`forecast-card${isActive ? ' forecast-card--active' : ''}`}
         onClick={onSelect}
         aria-pressed={isActive}
+        aria-label={`Show forecast for ${entry.fullDateLabel}`}
+        title={`Show forecast for ${entry.fullDateLabel}`}
       >
         <span className="forecast-card__day">{entry.dayLabel}</span>
         <span className="forecast-card__date">{entry.dateLabel}</span>
