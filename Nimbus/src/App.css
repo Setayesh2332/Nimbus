@@ -26,16 +26,6 @@
   padding-top: 1rem;
 }
 
-.app-shell__wave {
-  position: absolute;
-  inset: auto 0 0;
-  height: 46%;
-  background: #c2e2ff;
-  border-radius: 50% 50% 0 0;
-  transform: translateY(45%);
-  filter: blur(0.5px);
-}
-
 .weather-card {
   position: relative;
   z-index: 1;
