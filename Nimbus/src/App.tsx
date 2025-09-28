@@ -2,6 +2,7 @@ import { type ChangeEvent, type FormEvent, useCallback, useEffect, useState } fr
 import './App.css'
 import { CurrentConditions } from './components/CurrentConditions'
 import { ForecastList } from './components/ForecastList'
+import { Navbar } from './components/Navbar'
 import { SearchForm } from './components/SearchForm'
 import { conditionLabels, type Condition, type ForecastEntry } from './types/weather'
 
@@ -176,28 +177,31 @@ function App() {
   return (
     <div className="app-shell">
       <div className="app-shell__wave" aria-hidden="true" />
-      <main className="weather-card">
-        <SearchForm value={searchValue} onChange={handleSearchChange} onSubmit={handleSubmit} />
-        {error ? (
-          <p className="status-message status-message--error" role="alert">
-            {error}
-          </p>
-        ) : null}
-        {isLoading ? (
-          <p className="status-message" role="status">
-            Loading forecast…
-          </p>
-        ) : null}
-        <CurrentConditions
-          location={location}
-          condition={activeCondition}
-          conditionLabel={conditionLabels[activeCondition]}
-          temperature={activeTemperature}
-          dateLabel={activeForecast?.fullDateLabel}
-          dateTime={activeForecast?.id}
-        />
-        <ForecastList entries={forecastEntries} activeIndex={selectedIndex} onSelect={setSelectedIndex} />
-      </main>
+      <Navbar />
+      <div className="app-shell__content">
+        <main id="about" className="weather-card">
+          <SearchForm value={searchValue} onChange={handleSearchChange} onSubmit={handleSubmit} />
+          {error ? (
+            <p className="status-message status-message--error" role="alert">
+              {error}
+            </p>
+          ) : null}
+          {isLoading ? (
+            <p className="status-message" role="status">
+              Loading forecast…
+            </p>
+          ) : null}
+          <CurrentConditions
+            location={location}
+            condition={activeCondition}
+            conditionLabel={conditionLabels[activeCondition]}
+            temperature={activeTemperature}
+            dateLabel={activeForecast?.fullDateLabel}
+            dateTime={activeForecast?.id}
+          />
+          <ForecastList entries={forecastEntries} activeIndex={selectedIndex} onSelect={setSelectedIndex} />
+        </main>
+      </div>
     </div>
   )
 }
