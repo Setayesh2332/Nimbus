@@ -49,12 +49,6 @@ const parseISODate = (dateString: string): Date => {
   return new Date(Date.UTC(year, month - 1, day))
 }
 
-const formatDateLabel = (dateString: string, formatter: Intl.DateTimeFormat): string => {
-  const [year, month, day] = dateString.split('-').map(Number)
-  const utcDate = new Date(Date.UTC(year, month - 1, day))
-  return formatter.format(utcDate)
-}
-
 const buildForecastEntries = (forecast: ForecastResponse, timezone: string): ForecastEntry[] => {
   const dailyLength = forecast.daily.time.length
   if (dailyLength === 0) return []
