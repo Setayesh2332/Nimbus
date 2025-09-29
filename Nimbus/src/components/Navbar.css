@@ -55,6 +55,10 @@
   color: inherit;
 }
 
+.navbar__link[aria-current='page'] {
+  text-decoration: underline;
+}
+
 .navbar__link:hover,
 .navbar__link:focus-visible {
   text-decoration: underline;
@@ -72,6 +76,11 @@
   text-decoration: none;
   transition: transform 150ms ease, box-shadow 150ms ease;
   box-shadow: 0 10px 20px rgba(26, 55, 100, 0.18);
+}
+
+.navbar__feedback[aria-current='page'] {
+  background: #14294e;
+  box-shadow: none;
 }
 
 .navbar__feedback:hover,

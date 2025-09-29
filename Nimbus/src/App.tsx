@@ -3,8 +3,12 @@ import './App.css'
 import { CurrentConditions } from './components/CurrentConditions'
 import { ForecastList } from './components/ForecastList'
 import { Navbar } from './components/Navbar'
+import { AboutPage } from './components/pages/AboutPage'
+import { FeedbackPage } from './components/pages/FeedbackPage'
 import { SearchForm } from './components/SearchForm'
 import { conditionLabels, type Condition, type ForecastEntry } from './types/weather'
+
+type PageName = 'weather' | 'about' | 'feedback'
 
 interface GeocodeResult {
   name: string
@@ -47,7 +51,15 @@ const roundTemperature = (value: number): number => Math.round(value * 10) / 10
 
 const parseISODate = (dateString: string): Date => {
   const [year, month, day] = dateString.split('-').map(Number)
-  return new Date(Date.UTC(year, month - 1, day))
+  return new Date(Date.UTC(year, month - 1, day, 12))
+}
+
+const resolvePageFromHash = (hash: string): PageName => {
+  const normalized = hash.replace(/^#\/?/, '').toLowerCase()
+
+  if (normalized === 'about') return 'about'
+  if (normalized === 'feedback') return 'feedback'
+  return 'weather'
 }
 
 const buildForecastEntries = (forecast: ForecastResponse, timezone: string): ForecastEntry[] => {
@@ -82,12 +94,31 @@ const buildForecastEntries = (forecast: ForecastResponse, timezone: string): For
 }
 
 function App() {
+  const [activePage, setActivePage] = useState<PageName>(() => {
+    if (typeof window === 'undefined') return 'weather'
+    return resolvePageFromHash(window.location.hash)
+  })
   const [location, setLocation] = useState('Loading forecast…')
   const [searchValue, setSearchValue] = useState(DEFAULT_LOCATION)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [forecastEntries, setForecastEntries] = useState<ForecastEntry[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleHashChange = () => {
+      setActivePage(resolvePageFromHash(window.location.hash))
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+    handleHashChange()
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
+    }
+  }, [])
 
   const fetchForecast = useCallback(async (query: string) => {
     if (query.length === 0) return
@@ -177,30 +208,36 @@ function App() {
   return (
     <div className="app-shell">
       <div className="app-shell__wave" aria-hidden="true" />
-      <Navbar />
+      <Navbar currentPage={activePage} />
       <div className="app-shell__content">
-        <main id="about" className="weather-card">
-          <SearchForm value={searchValue} onChange={handleSearchChange} onSubmit={handleSubmit} />
-          {error ? (
-            <p className="status-message status-message--error" role="alert">
-              {error}
-            </p>
-          ) : null}
-          {isLoading ? (
-            <p className="status-message" role="status">
-              Loading forecast…
-            </p>
-          ) : null}
-          <CurrentConditions
-            location={location}
-            condition={activeCondition}
-            conditionLabel={conditionLabels[activeCondition]}
-            temperature={activeTemperature}
-            dateLabel={activeForecast?.fullDateLabel}
-            dateTime={activeForecast?.id}
-          />
-          <ForecastList entries={forecastEntries} activeIndex={selectedIndex} onSelect={setSelectedIndex} />
-        </main>
+        {activePage === 'weather' ? (
+          <main id="weather" className="app-card weather-card">
+            <SearchForm value={searchValue} onChange={handleSearchChange} onSubmit={handleSubmit} />
+            {error ? (
+              <p className="status-message status-message--error" role="alert">
+                {error}
+              </p>
+            ) : null}
+            {isLoading ? (
+              <p className="status-message" role="status">
+                Loading forecast…
+              </p>
+            ) : null}
+            <CurrentConditions
+              location={location}
+              condition={activeCondition}
+              conditionLabel={conditionLabels[activeCondition]}
+              temperature={activeTemperature}
+              dateLabel={activeForecast?.fullDateLabel}
+              dateTime={activeForecast?.id}
+            />
+            <ForecastList entries={forecastEntries} activeIndex={selectedIndex} onSelect={setSelectedIndex} />
+          </main>
+        ) : null}
+
+        {activePage === 'about' ? <AboutPage /> : null}
+        {activePage === 'feedback' ? <FeedbackPage /> : null}
+
       </div>
     </div>
   )

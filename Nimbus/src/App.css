@@ -22,17 +22,38 @@
   padding-top: 1rem;
 }
 
-.weather-card {
+.app-card {
   position: relative;
   z-index: 1;
   width: min(90vw, 360px);
-  display: grid;
-  gap: 2.5rem;
   padding: 2.25rem 2rem 2.5rem;
   border-radius: 32px;
   border: 3px solid #1ca7d8;
   background: #ffffff;
   box-shadow: 0 24px 50px rgba(22, 87, 133, 0.18);
+}
+
+.weather-card {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.static-card {
+  width: min(90vw, 540px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #1a3764;
+}
+
+.static-card h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.static-card p {
+  margin: 0;
+  line-height: 1.6;
 }
 
 .status-message {
@@ -47,7 +68,7 @@
 }
 
 @media (max-width: 420px) {
-  .weather-card {
+  .app-card {
     padding-inline: 1.5rem;
     border-width: 2px;
   }
