@@ -9,11 +9,7 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem 1.5rem 4rem;
-  background-image: linear-gradient(180deg, rgba(243, 248, 255, 0.92) 0%, rgba(247, 251, 255, 0.88) 45%, rgba(216, 235, 255, 0.8) 100%),
-    url('/background.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: #8ec5ff;
   gap: 2rem;
 }
 
